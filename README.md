@@ -10,7 +10,7 @@
 <p style="text-align: right;"><strong>Дипломная работа</strong></p>
 <p style="text-align: right;">студента 1 года обучения</p>
 <p style="text-align: right;">специальности "Тестирование ПО"</p>
-<p style="text-align: right;">Конюхова А.С.</p>
+<p style="text-align: right;">Конюхов А.С.</p>
 <p style="text-align: right;">Руководитель</p>
 <p style="text-align: right;">Шафигуллин И.К.</p>
 
@@ -18,4 +18,3 @@
 <br></br>
 
 <p style="text-align: center;">Радужный 2023</p>
-
