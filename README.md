@@ -2,7 +2,9 @@
 
 <p style="text-align: center;"> Факультет тестирования ПО </p>
 
-# <p style="text-align: center;"><strong> Автоматизация тестирования UI с использованием Selenium </strong></p>
+---
+
+# <p h1 style="text-align: center;"><strong> Автоматизация тестирования UI с использованием Selenium </strong></p>
 
 <br></br>
 <br></br>
@@ -18,3 +20,11 @@
 <br></br>
 
 <p style="text-align: center;"> Радужный 2023 </p>
+
+---
+
+## Структура диплома
+
+<img src="img/structure1.png" width="700" height="600" alt="diplom structure">
+
+<img src="img/structure2.png" width="700" height="600" alt="diplom structure">
