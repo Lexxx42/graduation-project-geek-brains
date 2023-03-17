@@ -2,7 +2,7 @@
 
 <p style="text-align: center;"> Факультет тестирования ПО </p>
 
-<p h1 style="text-align: center;"><strong> Автоматизация тестирования UI с использованием Selenium </strong></p>
+# <p style="text-align: center;"><strong> Автоматизация тестирования UI с использованием Selenium </strong></p>
 
 <br></br>
 <br></br>
