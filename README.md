@@ -25,6 +25,6 @@
 
 ## Структура диплома
 
-<img src="img/structure.png" width="700" height="600" alt="diplom structure">
+<img src="img/structure.png" width="750" height="600" alt="diplom structure">
 
-<img src="img/structure_cont.png" width="700" height="600" alt="diplom structure">
+<img src="img/structure_cont.png" width="750" height="500" alt="diplom structure">
