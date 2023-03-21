@@ -1,0 +1,8 @@
+p {
+ color: red;
+}
+html {
+font-size: 25px; /* px значит 'пиксели': базовый шрифт будет 10 пикселей в
+высоту */
+font-family: 'Roboto', sans-serif;
+}
