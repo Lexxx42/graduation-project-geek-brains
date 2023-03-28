@@ -85,11 +85,51 @@ hello_world()
     + Если у тебя установлен интерпретатор Python, то подсвечивается синтаксис языка.
     + Скрипт можно запустить используя сочетание клавиш или нажав на зеленый треугольник на любой из панелей открытого
       файла.
-      <img src="img/python_run.png" width="800" height="300" alt="auto formatting settings">
-      <img src="img/python_run_console.png" width="400" height="200" alt="auto formatting settings">
+      <img src="img/python_run.png" width="800" height="300" alt="python run button combination">
+      <img src="img/python_run_console.png" width="400" height="200" alt="python run">
 
 + Закоммитим изменения.
 
-<img src="img/second_commit.png" width="600" height="300" alt="auto formatting settings">
+<img src="img/second_commit.png" width="600" height="300" alt="second commit">
+
++ Отправим изменения на удалённый репозиторий.
++ В нижней панели клик на таб Git -> ПКМ на текущей ветке `first_pytho_program` -> Push... -> Push.
+
+<img src="img/push.png" width="600" height="400" alt="git push">
+
++ В этот момент git может попросить вас представиться ему (от чьего имени будут отправленны данные, вводите актуальную
+  почту и своё настоящее имя на английском языке. Так другие разработчики смогут идентифицировать, ком принадлежит
+  код, - это очень важно.), PyCharm может попросить у вас авторизоваться в GitHub.
++ Можно убедиться, что изменения были отправлены в удаленный репозиторий.
+    + Отрой свой репозиторий.
+
+  <img src="img/rep_after_push.png" width="600" height="300" alt="repository">
+
+    + Выбери другую ветку, кликнув на "2 branches" или на выпадающий список main.
+
+  <img src="img/rep_branches.png" width="800" height="300" alt="rep branches">
+
+    + Выбери ветку в которой ты писал код. У меня это `firs_python_program`.
+
+  <img src="img/branch_with_code.png" width="600" height="400" alt="branch with code">
+
+    + Посмотри код в файле `puthon_program.py` кликнув по названию.
+
+  <img src="img/python_code_in_branch.png" width="600" height="200" alt="code in remote branch">
+
+### Пул-реквест, разрешение конфликтов
+
++ Переключимся на ветку main. В нижней панели клик на таб Git ->
++ 
+
+
+
+
+
+
+
+
+
+
 
 
