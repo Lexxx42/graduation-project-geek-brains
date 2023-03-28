@@ -119,15 +119,64 @@ hello_world()
 
 ### Пул-реквест, разрешение конфликтов
 
-+ Переключимся на ветку main. В нижней панели клик на таб Git ->
-+ 
++ Переключимся на ветку main. В нижней панели клик на таб Git -> ПКМ main -> Checkout.
++ Как видишь, никаких изменений в этой ветке нет.
++ Давай создадим точно такой же файл и другую программу внутри него.
+
+```python
+def sum_two_numbers(f_number: int, sec_number: int) -> int:
+    return f_number + sec_number
 
 
+print(sum_two_numbers(2, 5))
 
+```
 
+<img src="img/sum_program.png" width="600" height="200" alt="sum program">
 
+Эта программа выводит в консоль сумму двух чисел.
 
+<img src="img/sum_result.png" width="300" height="100" alt="sum result">
 
++ Закоммитим изменения и запушим их в удалённый репозиторий.
+
+<img src="img/commit_sum_program.png" width="800" height="300" alt="commit sum program">
+
+<img src="img/push_sum_program.png" width="600" height="400" alt="push sum program">
+
++ К этому моменту у нас есть 2 ветки в удалённом репозитории, с одинаковым файлом внутри и разным его содержанием.
++ Попробуем сделать пулл-реквест.
+    + Открой репозиторий.
+
+      <img src="img/open_repository.png" width="600" height="400" alt="remote repository">
+
+    + Нажми кнопку "Compare & pull request"
+
+      <img src="img/cant_merge.png" width="600" height="400" alt="can't merge">
+
+    + Нажми "Create pull request"
+
+      <img src="img/conflicts.png" width="600" height="500" alt="conflicts">
+
+    + Возникли конфликты при слиянии веток. Сейчас мы их разрешим в GitHub. Этим можно заняться и в IDE, где тебе больше
+      нравится. Обязательно попробуй это сделать самостоятельно в разных средах.
+    + Нажми "Resolve conflicts".
+
+      <img src="img/resolve_conflicts_github.png" width="800" height="400" alt="can't merge">
+
+    + Смысл тут такой: GitHub отображает нам участок кода, где возник конфликт и предлагает решить, какой код мы
+      оставим. Остальное нужно удалить. Решение будет примерно таким:
+      <img src="img/mark_as_resolved.png" width="600" height="300" alt="mark as resolved">
+    + Станет доступна кнопка пометки конфликта как разрешенного, она появится в правой верхней части окна. Я для
+      удобства поместил ее рядом.
+    + Не будем сохранять изменения и попробуем теперь разрешить конфликт в IDE PyCharm.
+        + Убеждаемся, что мы находимся на ветке main или переключаемся на неё.
+        + В нижней панели нажимаем на таб "Git" -> ПКМ на второй ветке -> Merge '[имя_ветки]' into 'main'
+          <img src="img/merge_into_main.png" width="500" height="300" alt="merge into main">
+        + Появится окно рарешения конфликтов
+          <img src="img/conflicts_pycharm.png" width="500" height="300" alt="pycharm conflicts">
+        + Клик "Merge..."
+        + 
 
 
 
