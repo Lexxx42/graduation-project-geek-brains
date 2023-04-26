@@ -123,5 +123,30 @@ pytest scripts/drafts.py::test_register_new_user_parametrized
     + Кроме того, PyTest идентифицирует все тесты в классах, имена которых начинаются с `Test` (и которые не содержат
       метод инициализации) и имена методов которых начинаются с `test`.
 
-С подробностями можно ознакомиться в 
+С подробностями можно ознакомиться в
 [соглашении по обнаружению тестов.](https://docs.pytest.org/en/stable/explanation/goodpractices.html#conventions-for-python-test-discovery)
+
+## PyTest — отчёты
+
+Давайте сравним формат отчётов unittest и PyTest.
+
+### unittest
+
+<img src="img/unittest.png" width="800" height="200" alt="unittest report">
+
+### PyTest
+
+<img src="img/pytest.png" width="600" height="400" alt="pytest report">
+
+При выполнении PyTest с флагом -v (verbose, подробный) отчет о тестировании включает дополнительную информацию, в
+которой перечислены тесты и их статус прохождения/непрохождения:
+
+<img src="img/pytest_verbose.png" width="800" height="300" alt="pytest verbose report">
+
+Ознакомиться с другими полезными командами и функциями вывода информации можно использовав команду:
+
+```shell
+pytest --help
+```
+
+<img src="img/help.png" width="800" height="600" alt="pytest help">
