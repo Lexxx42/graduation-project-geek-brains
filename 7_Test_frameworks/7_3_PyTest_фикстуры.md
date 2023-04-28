@@ -142,3 +142,59 @@ class TestMainPage1:
         browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
 
 ```
+
+## Финализаторы — закрываем браузер
+
+В предыдущем примере вы могли заметить, что мы не включили команду `browser.quit()`.
+В результате несколько окон браузера
+оставались открытыми после завершения тестов и закрывались только после того, как все тесты были выполнены. Такое
+поведение было связано со встроенным приспособлением — сборщиком мусора. Однако, если количество тестов превышает
+несколько десятков, оставление нескольких открытых окон браузера может быстро привести к истощению оперативной памяти
+системы. Поэтому крайне важно явно закрывать браузеры после каждого теста. Этого можно добиться с помощью финализаторов,
+и один из способов реализовать финализатор — использовать ключевое слово `yield` в Python. После завершения теста,
+вызвавшего фикстуру, выполнение фикстуры продолжается со строки, следующей за строкой с ключевым словом `yield`.
+
+> test_fixture3.py
+
+```python
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+link = "http://selenium1py.pythonanywhere.com/"
+
+
+@pytest.fixture
+def browser():
+    print("\nstart browser for test..")
+    browser = webdriver.Chrome()
+    yield browser
+    # этот код выполнится после завершения теста
+    print("\nquit browser..")
+    browser.quit()
+
+
+class TestMainPage1:
+    # вызываем фикстуру в тесте, передав ее как параметр
+    def test_guest_should_see_login_link(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "#login_link")
+
+    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+
+```
+
+Документация PyTest предлагает альтернативный метод для вызова кода разрыва с использованием встроенной фиксации запроса
+и его метода `addfinalizer`. Вы можете обратиться
+к [документации](https://docs.pytest.org/en/latest/how-to/fixtures.html#adding-finalizers-directly), чтобы изучить этот
+метод.
+
+Вместо того, чтобы записывать данные и очистку памяти в шагах теста, рекомендуется помещать их в фикстуру, чтобы
+финализатор выполнялся даже в случае провала теста.
+
+
+
+
+
