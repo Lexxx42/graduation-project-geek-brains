@@ -194,7 +194,53 @@ class TestMainPage1:
 Вместо того, чтобы записывать данные и очистку памяти в шагах теста, рекомендуется помещать их в фикстуру, чтобы
 финализатор выполнялся даже в случае провала теста.
 
+## Область видимости scope
+
+Фикстуры в PyTest могут быть привязаны к определенной области покрытия. Доступные значения для параметра области
+действия: «функция», «класс», «модуль» и «сеанс». В зависимости от выбранной области фикстура будет вызываться один раз
+для каждой тестовой функции, один раз для каждого тестового класса, один раз для каждого тестового модуля или один раз
+для всего тестового сеанса.
+
+Чтобы сэкономить время, мы можем установить область действия фикстуры браузера на «класс», чтобы все тесты из класса
+TestMainPage1 могли выполняться в одном и том же браузере.
+
+> test_fixture5.py
+
+```python
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+link = "http://selenium1py.pythonanywhere.com/"
 
 
+@pytest.fixture(scope="class")
+def browser():
+    print("\nstart browser for test..")
+    browser = webdriver.Chrome()
+    yield browser
+    print("\nquit browser..")
+    browser.quit()
 
 
+class TestMainPage1:
+
+    # вызываем фикстуру в тесте, передав ее как параметр
+    def test_guest_should_see_login_link(self, browser):
+        print("start test1")
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "#login_link")
+        print("finish test1")
+
+    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
+        print("start test2")
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+        print("finish test2")
+
+```
+
+В этом примере браузер запускался только один раз, и тесты выполнялись последовательно в этом браузере. Хотя мы
+продемонстрировали это здесь, мы настоятельно рекомендуем запускать отдельный экземпляр браузера для каждого теста,
+чтобы повысить стабильность тестов. Для фикстур, которые потребляют много времени и ресурсов (обычно операции с базой
+данных), они могут выполняться один раз за сеанс выполнения теста.
