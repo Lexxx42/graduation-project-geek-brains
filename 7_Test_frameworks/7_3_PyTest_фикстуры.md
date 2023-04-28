@@ -1,5 +1,7 @@
 # Использование фикстур в PyTest
 
+## Классические фикстуры (fixtures)
+
 В контексте PyTest фикстуры — это вспомогательные функции для тестов, которые существуют вне самого тестового сценария.
 
 Фикстуры служат различным целям, включая подготовку тестовой среды, очистку тестовой среды и данных после завершения
@@ -28,6 +30,54 @@ API. Для получения дополнительной информации
 pytest -s test_fixture1.py
 ```
 
+```python
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+link = "http://selenium1py.pythonanywhere.com/"
+
+
+class TestMainPage1:
+
+    @classmethod
+    def setup_class(cls):
+        print("\nstart browser for test suite..")
+        cls.browser = webdriver.Chrome()
+
+    @classmethod
+    def teardown_class(cls):
+        print("quit browser for test suite..")
+        cls.browser.quit()
+
+    def test_guest_should_see_login_link(self):
+        self.browser.get(link)
+        self.browser.find_element(By.CSS_SELECTOR, "#login_link")
+
+    def test_guest_should_see_basket_link_on_the_main_page(self):
+        self.browser.get(link)
+        self.browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+
+
+class TestMainPage2:
+
+    def setup_method(self):
+        print("start browser for test..")
+        self.browser = webdriver.Chrome()
+
+    def teardown_method(self):
+        print("quit browser for test..")
+        self.browser.quit()
+
+    def test_guest_should_see_login_link(self):
+        self.browser.get(link)
+        self.browser.find_element(By.CSS_SELECTOR, "#login_link")
+
+    def test_guest_should_see_basket_link_on_the_main_page(self):
+        self.browser.get(link)
+        self.browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+
+```
+
 В консоли видим:
 
 <img src="img/console_output.png" width="800" height="400" alt="console output">
@@ -45,3 +95,50 @@ pytest -s test_fixture1.py
 
 Как правило, эти фикстуры включаются в тесты, написанные на модульном тесте, и требуют обслуживания. Однако в настоящее
 время используются более гибкие фикстуры @pytest.fixture.
+
+## Фикстуры, возвращающие значение
+
+В предыдущем разделе обсуждался традиционный метод создания фикстур, при котором тестовые данные инициализируются и
+очищаются в рамках методов setup и teardown. Однако PyTest предоставляет расширенный подход к фикстурам, где их
+можно определять глобально, передавать в качестве аргументов тестовым методам и даже включать в себя набор
+предварительно созданных фикстур. Этот подход гораздо более гибкий и удобный для работы со вспомогательными функциями, и
+мы сейчас рассмотрим его более подробно.
+
+### Возвращаемое значение
+
+Давайте пересмотрим предыдущий пример, используя фикстуры PyTest. Мы можем создать фикстуру с именем `browser`, которая
+инициализирует объект WebDriver и возвращает его для использования в тестах. Чтобы определить фикстуру, нам нужно
+создать метод с именем `browser` и декорировать его @pytest.fixture. После определения мы можем вызвать фикстуру в
+наших тестах, передав ее в качестве параметра. По умолчанию для каждого тестового метода создается фикстура, а это
+значит, что для каждого теста будет запускаться отдельный экземпляр браузера.
+
+```shell
+pytest -s -v test_fixture2.py
+```
+
+```python
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+link = "http://selenium1py.pythonanywhere.com/"
+
+
+@pytest.fixture
+def browser():
+    print("\nstart browser for test..")
+    browser = webdriver.Chrome()
+    return browser
+
+
+class TestMainPage1:
+    # вызываем фикстуру в тесте, передав ее как параметр
+    def test_guest_should_see_login_link(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "#login_link")
+
+    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+
+```
