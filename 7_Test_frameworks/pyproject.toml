@@ -1,0 +1,7 @@
+[tool.pytest.ini_options]
+
+markers = [
+    "smoke: marker for smoke tests",
+    "regression: marker for regression tests",
+    "win10"
+]
