@@ -2,5 +2,6 @@
 
 markers = [
     "smoke: marker for smoke tests",
-    "regression: marker for regression tests"
+    "regression: marker for regression tests",
+    "win10"
 ]
