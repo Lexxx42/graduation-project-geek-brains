@@ -158,3 +158,54 @@ pytest -s -v -m "smoke and win10" test_fixture81.py
 ```
 
 Должен выполниться тест test_guest_should_see_basket_link_on_the_main_page.
+
+## Пропуск тестов
+
+PyTest предоставляет встроенные маркеры, которые позволяют пропустить тест во время сбора тестов.
+Вам не нужно объявлять эти маркеры в `pyproject.toml`.
+
+Чтобы пропустить тест необходимо отметить его как `@pytest.mark.skip`:
+
+> test_fixture_skip.py
+
+```python
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+link = "http://selenium1py.pythonanywhere.com/"
+
+
+@pytest.fixture(scope="function")
+def browser():
+    print("\nstart browser for test..")
+    browser = webdriver.Chrome()
+    yield browser
+    print("\nquit browser..")
+    browser.quit()
+
+
+class TestMainPage1():
+
+    @pytest.mark.skip(reason="Reason to skip test")
+    def test_guest_should_see_login_link(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "#login_link")
+
+    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+```
+
+<img src="img/test_skipped.png" width="600" height="400" alt="test skipped">
+
+Хорошей практикой является явное указание причины пропуска теста `@pytest.mark.skip(reason="Reason to skip test")`.
+
+Команда для отображения всех харегистрированных меток:
+
+```shell
+pytest --markers
+```
+
+
+
