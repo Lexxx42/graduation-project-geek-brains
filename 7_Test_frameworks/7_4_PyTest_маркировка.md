@@ -207,5 +207,160 @@ class TestMainPage1():
 pytest --markers
 ```
 
+## XFail: помечать тест как ожидаемо падающий
+
+### Отметить тест как падающий
+
+Давайте включим тест в наш тестовый класс, который проверяет, присутствует ли кнопка «Избранное».
+
+```python
+def test_guest_should_see_search_button_on_the_main_page(self, browser):
+    browser.get(link)
+    browser.find_element(By.CSS_SELECTOR, "button.favorite")
+```
+
+Допустим, должна быть кнопка «Избранное», но из-за недавних изменений кода ее больше нет. Ожидая, пока разработчики
+исправят проблему, мы по-прежнему хотим, чтобы все наши тесты прошли успешно, но мы хотим, чтобы неудачный тест был
+помечен соответствующим образом, чтобы мы могли не забыть проверить его позже. Поэтому давайте добавим маркер
+`@pytest.mark.xfail` к проваленному тесту.
+
+> test_fixture10.py:
+
+```python
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+link = "http://selenium1py.pythonanywhere.com/"
 
 
+@pytest.fixture(scope="function")
+def browser():
+    print("\nstart browser for test..")
+    browser = webdriver.Chrome()
+    yield browser
+    print("\nquit browser..")
+    browser.quit()
+
+
+class TestMainPage1():
+
+    def test_guest_should_see_login_link(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "#login_link")
+
+    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+
+    @pytest.mark.xfail
+    def test_guest_should_see_search_button_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "button.favorite")
+```
+
+Запустим тесты:
+
+```shell
+pytest -v test_fixture10.py
+```
+
+<img src="img/xfail.png" width="600" height="400" alt="test xfail">
+
+Если ошибка устранена, тест, отмеченный `@pytest.mark.xfail`, теперь будет помечен как `XPASS` (неожиданно пройденный).
+На этом этапе можно удалить отметку xfail. Кроме того, к отметке xfail можно добавить параметр Reason. Чтобы просмотреть
+это сообщение в консоли, во время запуска необходимо добавить параметр `pytest -rx`.
+
+> test_fixture10a.py
+
+```python
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+link = "http://selenium1py.pythonanywhere.com/"
+
+
+@pytest.fixture(scope="function")
+def browser():
+    print("\nstart browser for test..")
+    browser = webdriver.Chrome()
+    yield browser
+    print("\nquit browser..")
+    browser.quit()
+
+
+class TestMainPage1():
+
+    def test_guest_should_see_login_link(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "#login_link")
+
+    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+
+    @pytest.mark.xfail(reason="fixing this bug right now")
+    def test_guest_should_see_search_button_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "button.favorite")
+```
+
+Запустим тесты:
+
+```shell
+pytest -rx -v test_fixture10a.py
+```
+
+<img src="img/xfail_with_a_reason.png" width="800" height="400" alt="xfail with a reason">
+
+### XPASS-тесты
+
+Поменяем селектор в последнем тесте, чтобы тест начал проходить.
+
+> test_fixture10b.py:
+
+```python
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+link = "http://selenium1py.pythonanywhere.com/"
+
+
+@pytest.fixture(scope="function")
+def browser():
+    print("\nstart browser for test..")
+    browser = webdriver.Chrome()
+    yield browser
+    print("\nquit browser..")
+    browser.quit()
+
+
+class TestMainPage1():
+
+    def test_guest_should_see_login_link(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "#login_link")
+
+    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+
+    @pytest.mark.xfail(reason="fixing this bug right now")
+    def test_guest_should_see_search_button_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "input.btn.btn-default")
+```
+
+Запустите тесты.
+Здесь мы добавили символ X в параметр -r, чтобы получить подробную информацию по XPASS-тестам:
+
+```shell
+pytest -rX -v test_fixture10b.py
+```
+
+<img src="img/xpass.png" width="800" height="400" alt="test xpass">
+
+Дополнительно об использовании этих меток можно почитать в документации: 
+[How to use skip and xfail to deal with tests that cannot succeed](https://pytest.org/en/stable/how-to/skipping.html)
