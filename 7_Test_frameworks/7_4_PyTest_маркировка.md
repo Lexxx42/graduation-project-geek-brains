@@ -80,3 +80,81 @@ markers = [
 
 Маркировать можно не только методы, но и сразу целые классы. В этом случае маркоровка будет применена ко всем тестовым
 методам этого класса.
+
+## Маркировка тестов часть 2
+
+### Инверсия
+
+Для выполнения всех тестов, не помеченных как «smoke», можно использовать инверсию.
+Выполните следующую команду:
+
+```shell
+pytest -s -v -m "not smoke" test_fixture8.py
+```
+
+### Объединение тестов с разными маркировками
+
+Чтобы запустить тесты с разными метками с использованием логического ИЛИ, вы можете выполнить следующую команду для
+запуска как smoke, так и regression тестов:
+
+```shell
+pytest -s -v -m "smoke or regression" test_fixture8.py
+```
+
+### Выбор тестов, имеющих несколько маркировок
+
+Предполагая, что есть необходимость запускать дымовые тесты исключительно на Windows 10, мы можем прописать метку win10
+в файле `pyproject.toml` и назначить ее соответствующему тесту.
+
+> pyproject.toml
+
+```
+[tool.pytest.ini_options]
+
+markers = [
+    "smoke: marker for smoke tests",
+    "regression: marker for regression tests",
+    "win10"
+]
+```
+
+> test_fixture81.py
+
+```python
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+link = "http://selenium1py.pythonanywhere.com/"
+
+
+@pytest.fixture(scope="function")
+def browser():
+    print("\nstart browser for test..")
+    browser = webdriver.Chrome()
+    yield browser
+    print("\nquit browser..")
+    browser.quit()
+
+
+class TestMainPage1:
+
+    @pytest.mark.smoke
+    def test_guest_should_see_login_link(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "#login_link")
+
+    @pytest.mark.smoke
+    @pytest.mark.win10
+    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
+```
+
+Чтобы запустить только smoke-тесты для Windows 10, нужно использовать логическое И:
+
+```shell
+pytest -s -v -m "smoke and win10" test_fixture81.py
+```
+
+Должен выполниться тест test_guest_should_see_basket_link_on_the_main_page.
