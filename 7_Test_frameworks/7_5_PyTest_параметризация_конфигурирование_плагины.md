@@ -177,10 +177,96 @@ Selenium-драйвер для Firefox носит название geckodriver.
 Ознакомьтесь с [инструкцией по установке драйвера](https://selenium-python.com/install-geckodriver) и не забудьте
 добавить его в PATH для пользователей с ОС Windows.
 
+## Conftest.py и передача параметров в командной строке
+
+На этом этапе мы разберемся, как настраивать тестовые среды, передавая параметры через командную
+строку с помощью встроенной фикстуры request, которая может получать данные о текущем выполняемом тесте. Это может
+позволить нам хранить дополнительные данные в отчете и выполнять ряд других полезных задач.
+
+Это делается с помощью встроенной функции pytest_addoption и фикстуры request. Сначала добавляем в файле conftest
+обработчик опции в функции pytest_addoption, затем напишем фикстуру, которая будет обрабатывать переданные в опции
+данные.
+
+Подробнее можно узнать в
+документации: [pytest_addoption](https://docs.pytest.org/en/latest/example/simple.html?highlight=addoption)
+
+Добавим логику обработки командной строки в файл `conftest.py`.
+Мы можем получить значение параметра с помощью следующей команды:
+
+```python
+browser_name = request.config.getoption("browser_name")
+```
+
+> conftest.py:
+
+```python
+import pytest
+from selenium import webdriver
 
 
+def pytest_addoption(parser):
+    parser.addoption('--browser_name', action='store', default=None,
+                     help="Choose browser: chrome or firefox")
 
 
+@pytest.fixture(scope="function")
+def browser(request):
+    browser_name = request.config.getoption("browser_name")
+    browser = None
+    if browser_name == "chrome":
+        print("\nstart chrome browser for test..")
+        browser = webdriver.Chrome()
+    elif browser_name == "firefox":
+        print("\nstart firefox browser for test..")
+        browser = webdriver.Firefox()
+    else:
+        raise pytest.UsageError("--browser_name should be chrome or firefox")
+    yield browser
+    print("\nquit browser..")
+    browser.quit()
+```
+
+> test_parser.py:
+
+```python
+link = "http://selenium1py.pythonanywhere.com/"
 
 
+def test_guest_should_see_login_link(browser):
+    browser.get(link)
+    browser.find_element(By.CSS_SELECTOR, "#login_link")
+```
 
+Если вы теперь запустите тесты без параметра, то получите ошибку:
+
+```shell
+pytest -s -v test_parser.py
+```
+
+```
+ERROR _pytest.config.exceptions.UsageError: --browser_name should be chrome or firefox
+```
+
+Чтобы избежать необходимости каждый раз указывать параметр `--browser_name` в командной строке, мы можем установить для
+параметра значение по умолчанию.
+Это можно сделать, добавив следующую строку в файл `conftest.py`:
+
+```python
+def pytest_addoption(parser):
+    parser.addoption('--browser_name', action='store', default='chrome', help="Choose browser: chrome or firefox")
+
+```
+
+Запустите тесты на Chrome:
+
+```shell
+pytest -s -v --browser_name=chrome test_parser.py
+```
+
+И на Firefox:
+
+```shell
+pytest -s -v --browser_name=firefox test_parser.py
+```
+
+Вы должны заметить как тесты выполняются в разных браузерах.
