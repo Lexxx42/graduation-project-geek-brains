@@ -152,14 +152,30 @@ class TestLogin:
         # этот тест тоже запустится дважды
 ```
 
-Дополнительно ознакомьтесь с документацией 
+Дополнительно ознакомьтесь с документацией
 [How to parametrize fixtures and test functions](https://docs.pytest.org/en/latest/how-to/parametrize.html)
 
+## Установка Firefox и Selenium-драйвера geckodriver
 
+До сих пор мы выполняли наши тесты только в браузере Chrome. Однако что, если мы хотим протестировать наше
+веб-приложение и в других браузерах? В таком сценарии мы можем запускать одни и те же тесты в разных браузерах, указав
+имя браузера при запуске тестов. Например, мы можем выбрать Firefox в качестве второго браузера, поскольку он широко
+используется и может работать на любой платформе. Чтобы запустить тесты в конкретном браузере, нам нужно указать
+параметр `browser_name` при запуске с помощью следующей команды:
 
+```shell
+pytest -s -v --browser_name=firefox test_cmd.py
+```
 
+Установите последнюю версию браузера Firefox для вашей платформы:
+[Firefox Browser](https://www.mozilla.org/en-US/firefox/new/)
 
+Selenium-драйвер для Firefox носит название geckodriver.
 
+Последнюю версию драйвера можно скачать [geckodriver](https://github.com/mozilla/geckodriver/releases)
+
+Ознакомьтесь с [инструкцией по установке драйвера](https://selenium-python.com/install-geckodriver) и не забудьте
+добавить его в PATH для пользователей с ОС Windows.
 
 
 
