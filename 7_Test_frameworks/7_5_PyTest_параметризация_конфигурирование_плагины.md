@@ -87,3 +87,84 @@ selenium_course_solutions/
 Подробнее можете ознакомиться в документации:
 [Override a fixture on a folder (conftest) level](https://docs.pytest.org/en/7.1.x/how-to/fixtures.html?highlight=fixture%20folder#override-a-fixture-on-a-folder-conftest-level)
 
+## Параметризация тестов
+
+Используя декоратор `@pytest.mark.parametrize()` в PyTest, вы можете запустить один и тот же тест с различными входными
+параметрами. Например, предположим, что наш веб-сайт доступен на разных языках. Мы можем написать тест, который
+проверяет, отображается ли ссылка на форму входа для русской и английской версий главной страницы сайта. Мы можем
+передать в наш тест ссылки на русскую и английскую версии главной страницы сайта.
+
+Чтобы использовать декоратор `@pytest.mark.parametrize()`, вам необходимо указать параметр,
+который необходимо изменить, и список значений параметров.
+Тест также должен передавать параметр в качестве аргумента. Важно отметить, что при
+использовании декоратора имя параметра заключается в кавычки, а в списке тестовых аргументов кавычки не нужны.
+
+> test_fixture7.py:
+
+```python
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+
+@pytest.fixture(scope="function")
+def browser():
+    print("\nstart browser for test..")
+    browser = webdriver.Chrome()
+    yield browser
+    print("\nquit browser..")
+    browser.quit()
+
+
+@pytest.mark.parametrize('language', ["ru", "en-gb"])
+def test_guest_should_see_login_link(browser, language):
+    link = f"http://selenium1py.pythonanywhere.com/{language}/"
+    browser.get(link)
+    browser.find_element(By.CSS_SELECTOR, "#login_link")
+```
+
+Запустите тест:
+
+```shell
+pytest -s -v test_fixture7.py
+```
+
+При запуске теста вы увидите два запущенных теста, при этом имя каждого теста отображает параметр, с которым он был
+запущен, заключенный в квадратные скобки. Такой подход помогает увеличить количество проверок по схожим сценариям без
+дублирования кода.
+
+<img src="img/locale_parametrized.png" width="600" height="300" alt="locale_parametrized">
+
+Чтобы указать параметры для всех тестов в классе, перед объявлением класса следует поставить знак параметризации. Это
+применит указанные параметры ко всем тестам в классе:
+
+```python
+@pytest.mark.parametrize('language', ["ru", "en-gb"])
+class TestLogin:
+    def test_guest_should_see_login_link(self, browser, language):
+        link = f"http://selenium1py.pythonanywhere.com/{language}/"
+        browser.get(link)
+        browser.find_element(By.CSS_SELECTOR, "#login_link")
+        # этот тест запустится 2 раза
+
+    def test_guest_should_see_navbar_element(self, browser, language):
+        pass
+        # этот тест тоже запустится дважды
+```
+
+Дополнительно ознакомьтесь с документацией 
+[How to parametrize fixtures and test functions](https://docs.pytest.org/en/latest/how-to/parametrize.html)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
