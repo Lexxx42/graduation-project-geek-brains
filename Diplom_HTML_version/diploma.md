@@ -5,9 +5,9 @@
 You have some errors, warnings, or alerts. If you are using reckless mode, turn it off to see inline alerts.
 * ERRORs: 0
 * WARNINGs: 0
-* ALERTS: 2
+* ALERTS: 3
 
-Conversion time: 1.398 seconds.
+Conversion time: 0.895 seconds.
 
 
 Using this Markdown file:
@@ -20,18 +20,20 @@ Using this Markdown file:
 Conversion notes:
 
 * Docs to Markdown version 1.0β34
-* Tue May 16 2023 05:30:25 GMT-0700 (PDT)
+* Wed May 17 2023 01:50:43 GMT-0700 (PDT)
 * Source doc: Автоматизация тестирования UI с помощью Selenium и Pytest
+* This is a partial selection. Check to make sure intra-doc links work.
 * This document has images: check for >>>>>  gd2md-html alert:  inline image link in generated source and store images to your server. NOTE: Images in exported zip file from Google Docs may not appear in  the same order as they do in your doc. Please check the images!
 
 ----->
 
 
-<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 0; ALERTS: 2.</p>
+<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 0; ALERTS: 3.</p>
 <ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
 
 <p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
 <a href="#gdcalert2">alert2</a>
+<a href="#gdcalert3">alert3</a>
 
 <p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
 
@@ -61,8 +63,6 @@ Geekbrains
 **Дипломный проект “Автоматизация тестирования UI с использованием Selenium и Pytest”**
 
 **Содержание**
-
-[TOC]
 
 <h2>Введение</h2>
 
@@ -267,7 +267,7 @@ UI тестирование, также известное как тестиро
 
 <h3>2.1 Основы HTML</h3>
 
-<h4>2.1.1 Что такое HTML</h4>
+<h4>2.1.1 Что такое HTML?</h4>
 
 HTML — это не язык программирования, а язык разметки, используемый для структурирования и представления веб-страниц и их
 содержимого. Он позволяет организовывать текст в абзацы, создавать маркированные списки, вставлять изображения и
@@ -319,6 +319,61 @@ HTML использует теги, которые представляют со
 Атрибуты часто используются для поиска элементов на странице, поэтому необходимо обратить на них внимание при изучении
 HTML.
 
+<h3>2.2 Основы CSS</h3>
+
+<h4>2.2.1 Так что же такое CSS?</h4>
+
+CSS (Cascading Style Sheets) — это код, используемый для настройки внешнего вида вашей веб-страницы. Понимание основ CSS
+позволяет управлять такими аспектами, как цвет текста, расположение контента на экране и добавление фоновых изображений
+и цветов. Для автоматизации тестирования необходимо знать как меняются свойства отображения элемента, такие как цвет,
+размер и активное состояние.
+
+Подобно HTML, CSS считается не языком программирования, а скорее языком таблиц стилей. Его цель — выборочное применение
+стилей к определенным элементам в документах HTML.
+
+<h4>2.2.2 Анатомия набора правил CSS</h4>
+
+Давайте посмотрим на CSS более подробно:
+
+
+
+<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image3.png "image_tooltip")
+
+Рисунок 3. Набор правил CSS.
+
+Вся структура называется набором правил (но зачастую для краткости "правило"). Отметим также имена отдельных частей:
+
+Селектор (Selector)
+
+Имя HTML-элемента в начале набора правил. Он выбирает элемент(ы) для применения стиля (в данном случае, элементы p ).
+Для стилизации другого элемента, просто измените селектор.
+
+Объявление (Declaration)
+
+Единственное правило, например color: red; указывает, какие из свойств элемента вы хотите стилизовать.
+
+Свойства (Properties)
+
+Способы, которыми вы можете стилизовать определённый HTML-элемент (в данном случае, color является свойством для
+элементов [<p>](https://developer.mozilla.org/ru/docs/Web/HTML/Element/p)). В CSS вы выбираете, какие свойства вы хотите
+затронуть в вашем правиле.
+
+Значение свойства (Property value)
+
+Справа от свойства, после двоеточия, у нас есть значение свойства, которое выбирает одно из множества возможных
+признаков для данного свойства (существует множество значений color, помимо red).[^7]
+
+<h3>2.3 Основы JavaScript</h3>
+
+JavaScript — это язык программирования, который повышает интерактивность вашего веб-сайта. Он включает различные
+функции, такие как интерактивные игры, отклики на нажатие кнопок или ввод данных в формы, динамический стиль и анимацию.
+
+Вы можете ознакомиться с синтаксисом языка самостоятельно. Здесь же мы поговорим о наиболее часто встречаемых элементах
+взаимодействиях: alert, confirm и prompt
+
 <h2>Литература</h2>
 
 Куликов, С. С. Тестирование программного обеспечения. Базовый курс. (3-е издание) / С. С. Куликов. – Newtown,
@@ -340,6 +395,9 @@ URL: [https://habr.com/ru/articles/549054/](https://habr.com/ru/articles/549054/
 URL: [https://habr.com/ru/articles/699990/](https://habr.com/ru/articles/699990/) (дата обращения: 20.03.2023)
 
 Основы HTML // MDN Web Docs : сайт. – URL: https://developer.mozilla.org/ru/ (дата обращения: 20.03.2023)
+
+Основы CSS // MDN Web Docs : сайт. –
+URL: https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/CSS_basics (дата обращения: 21.03.2023)
 
 
 <!-- Footnotes themselves at the bottom. -->
@@ -371,4 +429,8 @@ URL: [https://habr.com/ru/articles/699990/](https://habr.com/ru/articles/699990/
 
 [^6]:
 
-     Основы HTML // MDN Web Docs : сайт. – URL: https://developer.mozilla.org/ru/ (дата обращения: 16.05.2023)
+     Основы HTML // MDN Web Docs : сайт. – URL: [https://developer.mozilla.org/ru/](https://developer.mozilla.org/ru/) (дата обращения: 16.05.2023)
+
+[^7]:
+Основы CSS // MDN Web Docs : сайт. –
+URL: https://developer.mozilla.org/ru/docs/Learn/Getting_started_with_the_web/CSS_basics (дата обращения: 21.03.2023)
