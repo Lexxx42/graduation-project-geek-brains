@@ -5,11 +5,11 @@ from selenium.webdriver.common.by import By
 link = 'https://demoqa.com/'
 
 
-@pytest.fixture(scope='class')
+@pytest.fixture(scope='function')
 def browser():
     print('\nstart browser')
     browser = webdriver.Chrome()
-    return browser
+    yield browser
     print('\nquit browser')
     browser.quit()
 

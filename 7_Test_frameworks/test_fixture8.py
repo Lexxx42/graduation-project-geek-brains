@@ -9,7 +9,7 @@ link = 'https://demoqa.com/'
 def browser():
     print('\nstart browser')
     browser = webdriver.Chrome()
-    return browser
+    yield browser
     print('\nquit browser')
     browser.quit()
 
