@@ -17,13 +17,13 @@ def browser():
 class TestMainPage1:
     @pytest.mark.smoke
     def test_guest_should_see_banner_image(self, browser):
-        print('smoke test')
+        print('smoke test 1')
         browser.get(link)
         browser.find_element(By.CSS_SELECTOR, '.banner-image')
 
     @pytest.mark.smoke
     @pytest.mark.win10
     def test_guest_should_see_elements_card_on_the_main_page(self, browser):
-        print('regression test')
+        print('smoke test 2')
         browser.get(link)
         browser.find_element(By.XPATH, '//*[@class="card mt-4 top-card"][.//h5[text()="Elements"]]')
