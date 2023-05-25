@@ -7,7 +7,7 @@ link = 'https://demoqa.com/'
 
 @pytest.fixture
 def browser():
-    print('\nstart browser for test')
+    print('\nstart browser')
     browser = webdriver.Chrome()
     return browser
 
