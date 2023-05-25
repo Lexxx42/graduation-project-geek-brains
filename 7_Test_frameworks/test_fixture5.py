@@ -2,29 +2,23 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-link = "http://selenium1py.pythonanywhere.com/"
+link = 'https://demoqa.com/'
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope='class')
 def browser():
-    print("\nstart browser for test..")
+    print('\nstart browser')
     browser = webdriver.Chrome()
-    yield browser
-    print("\nquit browser..")
+    return browser
+    print('\nquit browser')
     browser.quit()
 
 
 class TestMainPage1:
-
-    # вызываем фикстуру в тесте, передав ее как параметр
-    def test_guest_should_see_login_link(self, browser):
-        print("start test1")
+    def test_guest_should_see_banner_image(self, browser):
         browser.get(link)
-        browser.find_element(By.CSS_SELECTOR, "#login_link")
-        print("finish test1")
+        browser.find_element(By.CSS_SELECTOR, '.banner-image')
 
-    def test_guest_should_see_basket_link_on_the_main_page(self, browser):
-        print("start test2")
+    def test_guest_should_see_elements_card_on_the_main_page(self, browser):
         browser.get(link)
-        browser.find_element(By.CSS_SELECTOR, ".basket-mini .btn-group > a")
-        print("finish test2")
+        browser.find_element(By.XPATH, '//*[@class="card mt-4 top-card"][.//h5[text()="Elements"]]')
