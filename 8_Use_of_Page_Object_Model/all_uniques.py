@@ -2,4 +2,8 @@
 
 a = [1, 1, 1, 2, 3, 1, 2, 3, 4, 5, 6, 0]
 
-(lambda x: print(*x))(set(i for i in a))
+print(list(set(a)))
+
+unique = list(dict.fromkeys(a))
+
+print(unique)
