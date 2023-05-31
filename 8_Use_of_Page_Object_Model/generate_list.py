@@ -6,4 +6,4 @@ print(generated_list)
 
 sorted_list = ()
 
-print(sorted(filter(lambda x: not 2, generated_list)) + sorted(filter(lambda x: 2, generated_list)))
+print(sorted(filter(lambda x: not x % 2, generated_list)) + sorted(filter(lambda x: x % 2, generated_list)))
