@@ -4,7 +4,7 @@
 
 Отчётность - одна из важных составляющих проекта, которая всегда проблематична для составления. Если у вас нет примеров
 для составления подобной документации на проекте, то вы обязательно зададитесь вопросами о том, что в неё написать, как
-описать выполненые действия, зачем это вообще описывать и кто будет читать этот отчёт.
+описать выполненные действия, зачем это вообще описывать и кто будет читать этот отчёт.
 
 На самом деле, отчёт важен не только заказчику, чтобы посмотреть в каком состоянии находится выполнение текущего этапа
 проекта, но и самой команде, чтобы разобраться в проблемных местах системы.
@@ -59,7 +59,7 @@
 
 ### Маркирование шагов, тестовых наборов, фичей и тестов
 
-Посмотрим на примение маркировки тестов для страницы [Accordian DEMOQA](https://demoqa.com/accordian).
+Посмотрим на применение маркировки тестов для страницы [Accordian DEMOQA](https://demoqa.com/accordian).
 
 ```python
 @allure.suite('Alerts Frame Windows tab')
@@ -80,15 +80,14 @@ class TestAlertsFrameWindows:
         browser_windows_page_link = 'https://demoqa.com/browser-windows'
 
         @allure.title('Test opening a new tab and getting the text from it.')
-        def test_new_tab(self, driver):
+        def test_new_tab(self, driver: WebDriver):
             """Test opening a new tab and getting the text from it."""
-            browser_windows_page = BrowserWindowsPage(driver, self.browser_windows_page_link)
+            browser_windows_page = BrowserWindowsPage(driver=driver, url=self.browser_windows_page_link)
             browser_windows_page.open()
-            new_tab_text = browser_windows_page.check_opened('tab')
+            new_tab_text = browser_windows_page.check_opened(what_to_open='tab')
             assert new_tab_text == TestAlertsFrameWindows.EXPECTED_TEXT, \
-            f'New tab text should be \'{TestAlertsFrameWindows.EXPECTED_TEXT}\''
-
-        f' but got {new_tab_text}'
+                f'New tab text should be \'{TestAlertsFrameWindows.EXPECTED_TEXT}\'' \
+                f' but got {new_tab_text}'
 
 ```
 
@@ -107,9 +106,12 @@ class BrowserWindowsPage(BasePage):
     locators = BrowserWindowsPageLocators()
 
     @allure.step('Check if new tab of window is opened.')
-    def check_opened(self, what_to_open) -> str:
+    def check_opened(self, what_to_open: str) -> str:
         """
         Check if new tab of window is opened.
+        :param what_to_open: Element to open.
+            tab -> open the tab.
+            window -> open the window.
         :returns: title of new tab or window.
         """
         available_cases = {
@@ -117,12 +119,13 @@ class BrowserWindowsPage(BasePage):
             'window': self.locators.NEW_WINDOW_BUTTON
         }
         with allure.step(f'Click on {what_to_open}'):
-            self.element_is_clickable(available_cases[what_to_open]).click()
+            self.element_is_clickable(locator=available_cases[what_to_open]).click()
         with allure.step('Switch to new tab'):
             self.switch_to_new_tab()
         with allure.step('Get title text'):
-            text_title = self.element_is_present(self.locators.SAMPLE_TEXT).text
+            text_title = self.element_is_present(locator=self.locators.SAMPLE_TEXT).text
         return text_title
+
 ```
 
 Каждое действие метода-проверки помечается соответствующим декоратором. Не забывайте писать осмысленные сообщения о
@@ -130,7 +133,7 @@ class BrowserWindowsPage(BasePage):
 
 ### Получение скриншотов экрана
 
-Вы можете получать скриншоты экрана с помощью срадств автоматизации и прикреплять их к вашему отчёту. Это будет удобно
+Вы можете получать скриншоты экрана с помощью средств автоматизации и прикреплять их к вашему отчёту. Это будет удобно
 для визуального наблюдения дефекта, когда вы запускаете автотесты в `headless` режиме или ставите ночной прогон тестов.
 
 ```python
@@ -141,8 +144,11 @@ def driver():
     driver.maximize_window()
     yield driver
     screenshot = driver.get_screenshot_as_png()
-    allure.attach(screenshot, name=f'Screenshot {datetime.today()}',
-                  attachment_type=allure.attachment_type.PNG)
+    allure.attach(
+        body=screenshot,
+        name=f'Screenshot {datetime.today()}',
+        attachment_type=allure.attachment_type.PNG
+    )
     driver.quit()
 
 ```
